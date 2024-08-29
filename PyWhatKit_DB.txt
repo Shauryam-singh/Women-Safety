@@ -1,0 +1,15 @@
+Date: 29/8/2024
+Time: 21:44
+Phone Number: +916307257097
+Message: This is a test alert message.
+--------------------
+Date: 29/8/2024
+Time: 21:48
+Phone Number: +916307257097
+Message: This is a test alert message.Current Location:Latitude: 28.8761Longitude: 77.5382
+--------------------
+Date: 29/8/2024
+Time: 21:53
+Phone Number: +916307257097
+Message: This is a test alert message.Current Location:Latitude: 28.8761Longitude: 77.5382Map: https://www.google.com/maps/search/?api=1&query=28.8761,77.5382&key=AIzaSyC6UBHOuZA6MnWlRa_PABe_Ag7hWZZIJ5c
+--------------------

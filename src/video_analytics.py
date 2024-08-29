@@ -1,5 +1,6 @@
 import cv2
 import mediapipe as mp
+from src.alert_system import AlertSystem
 
 class VideoAnalytics:
     def __init__(self, video_source=0):
@@ -13,10 +14,8 @@ class VideoAnalytics:
         self.gestures = {
             "Thumbs Up": [4, 8, 12, 16, 20],  # Thumb extended, others folded
             "Peace": [8, 12],  # Index and middle fingers extended
-            "Fist": [4, 8, 12, 16, 20],  # All fingers folded
         }
 
-        # To track the last detected gesture and avoid repeating prints
         self.last_gesture = None
 
     def process_video(self):
@@ -25,13 +24,10 @@ class VideoAnalytics:
             if not ret:
                 break
 
-            # Process the frame here
             self.analyze_frame(frame)
 
-            # Display the frame
             cv2.imshow('Video Analytics', frame)
 
-            # Press 'q' to quit
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
@@ -39,7 +35,6 @@ class VideoAnalytics:
         cv2.destroyAllWindows()
 
     def analyze_frame(self, frame):
-        # Convert the BGR image to RGB.
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
         # Process the frame to detect hand landmarks.
@@ -67,20 +62,17 @@ class VideoAnalytics:
         ring_finger_tip = landmarks[16]
         pinky_tip = landmarks[20]
 
-        # Gesture Recognition Logic
         if self.is_thumbs_up(thumb_tip, index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip):
             return "Thumbs Up"
 
         if self.is_peace(index_finger_tip, middle_finger_tip, thumb_tip):
+            alert_system = AlertSystem(recipient_phone="+916307257097")
+            alert_system.send_alert("This is a test alert message.")
             return "Peace"
 
-        if self.is_fist(thumb_tip, index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip):
-            return "Fist"
-
-        return None  # No gesture recognized
+        return None
 
     def is_thumbs_up(self, thumb_tip, index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip):
-        # Check for a "Thumbs Up" gesture
         return (
             thumb_tip[1] < index_finger_tip[1] and
             index_finger_tip[1] > middle_finger_tip[1] and
@@ -89,17 +81,7 @@ class VideoAnalytics:
         )
 
     def is_peace(self, index_finger_tip, middle_finger_tip, thumb_tip):
-        # Check for a "Peace" gesture
         return (
             index_finger_tip[1] < thumb_tip[1] and
             middle_finger_tip[1] < thumb_tip[1]
-        )
-
-    def is_fist(self, thumb_tip, index_finger_tip, middle_finger_tip, ring_finger_tip, pinky_tip):
-        # Check for a "Fist" gesture
-        return (
-            thumb_tip[1] > index_finger_tip[1] and
-            index_finger_tip[1] > middle_finger_tip[1] and
-            middle_finger_tip[1] > ring_finger_tip[1] and
-            ring_finger_tip[1] > pinky_tip[1]
         )
