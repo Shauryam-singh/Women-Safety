@@ -4,3 +4,9 @@ mediapipe
 pywhatkit
 geopy
 requests
+pandas
+openrouteservice
+pyaudio 
+librosa 
+scikit-learn
+Flask

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Safety App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Women Safety App</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('video_analysis') }}">Video Analysis</a></li>
+                <li><a href="{{ url_for('speech_analysis') }}">Speech Analysis</a></li>
+                <li><a href="{{ url_for('behavior_analysis') }}">Behavior Analysis</a></li>
+                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Welcome</h2>
+            <p>Welcome to the Women Safety App. Use the navigation menu to access different features.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Women Safety App</p>
+    </footer>
+</body>
+</html>
