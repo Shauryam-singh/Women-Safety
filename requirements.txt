@@ -10,3 +10,4 @@ pyaudio
 librosa 
 scikit-learn
 Flask
+SpeechRecognition
