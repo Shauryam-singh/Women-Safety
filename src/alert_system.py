@@ -4,8 +4,8 @@ import urllib.parse
 
 class AlertSystem:
     def __init__(self, recipient_phone):
-        self.recipient_phone = recipient_phone
-        self.google_maps_api_key = "AIzaSyC6UBHOuZA6MnWlRa_PABe_Ag7hWZZIJ5c"
+            self.recipient_phone = recipient_phone
+            self.google_maps_api_key = "AIzaSyC6UBHOuZA6MnWlRa_PABe_Ag7hWZZIJ5c"
 
     def get_current_location(self):
         try:
@@ -22,7 +22,7 @@ class AlertSystem:
         except Exception as e:
             print(f"Failed to get location: {e}")
             return 0, 0  # Return default coordinates if failed
-
+        
     def get_map_url(self, latitude, longitude):
         # Generate a Google Maps URL for the given coordinates
         return (f"https://www.google.com/maps/search/?api=1&query={latitude},{longitude}"
@@ -30,7 +30,7 @@ class AlertSystem:
 
     def send_alert(self, message):
         try:
-            # Get current location coordinates
+             # Get current location coordinates
             lat, lon = self.get_current_location()
 
             # Generate Google Maps URL
