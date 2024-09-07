@@ -112,3 +112,23 @@ if __name__ == "__main__":
 
     cap.release()
     cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    recipient_phone = "+916307257097"
+    cap = cv2.VideoCapture(0)
+    gesture_recognition = GestureRecognition(recipient_phone)
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        gesture_recognition.recognize_gesture(frame)
+
+        cv2.imshow('Gesture Recognition', frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()

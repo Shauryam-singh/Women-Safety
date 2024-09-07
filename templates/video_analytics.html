@@ -4,27 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Analytics</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/geofencing.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="/">Women Safety Analytics</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
-                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-                <li><a href="#cta">Get Started</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div id="nav">
+        <div id="logo-v">
+            <video autoplay muted loop src="../static/SafeSight-Ai-logo color.mp4"></video>
         </div>
-    </nav>
-
-    <main>
+        <a href="/">Home</a>
+        <a href="{{ url_for('geofencing') }}">Geofencing</a>
+        <a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a>
+        <a href="{{ url_for('video_analytics') }}">Video Analytics</a>
+        <a href="{{ url_for('speech_analysis') }}">Speech Analysis</a>
+        <a href="{{ url_for('threat_level_detection') }}">Threat Recognition</a>
+    </div>
+    <!-- 10% gap -->
+     <div id="gap10"></div>
+    <!-- main section -->
+     <div id="main">
         <h1>Video Analytics</h1>
         
         <!-- Upload Video for Analytics -->
@@ -47,17 +46,7 @@
             {% endfor %}
         </ul>
         {% endif %}
-    </main>
-        
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
-            </div>
-        </div>
-    </footer>
+    </div>
 
 </body>
 </html>

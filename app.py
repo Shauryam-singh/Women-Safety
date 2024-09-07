@@ -41,9 +41,9 @@ def speech_analysis():
         try:
             duration = int(request.form.get('duration', 5))
             results = analyze_speech(duration)
-            print("Results:", results)  # Debug print statement
+            print("Results:", results)  
         except Exception as e:
-            print("Error:", e)  # Debug print statement
+            print("Error:", e)  
             return str(e)
     return render_template('speech_analysis.html', results=results)
 
@@ -51,29 +51,34 @@ def speech_analysis():
 def gesture_recognition_page():
     return render_template('gesture_recognition.html')
 
-
-gesture_recognition = GestureRecognition("+916307257097")
-
 @app.route('/recognize_gesture', methods=['POST'])
 def recognize_gesture():
-    data = request.get_json()
-    image_data = data.get('image', '')
+    
+    recipient_phone = "+916307257097"
+    cap = cv2.VideoCapture(0)
+    gesture_recognition = GestureRecognition(recipient_phone)
 
-    # Decode base64 image data
-    image_data = image_data.split(',')[1]  # Remove data:image/jpeg;base64,
-    image_bytes = base64.b64decode(image_data)
-    np_img = np.frombuffer(image_bytes, np.uint8)
-    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
 
-    if img is None:
-        return jsonify({'error': 'Unable to decode image'}), 400
+        gesture_recognition.recognize_gesture(frame)
 
-    gesture_name = gesture_recognition.recognize_gesture(img)
+        cv2.imshow('Gesture Recognition', frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+    gesture_name = gesture_recognition.recognize_gesture(frame)
+
     return jsonify({'gesture': gesture_name})
 
 @app.route('/video_analytics', methods=['GET', 'POST'])
 def video_analytics():
-    log_entries = []  # List to store log messages
+    log_entries = [] 
     if request.method == 'POST' and 'video_file' in request.files:
         video_file = request.files['video_file']
         video_path = os.path.join('temp', video_file.filename)
@@ -107,22 +112,22 @@ def threat_level_detection():
 def stream_feed():
     def generate():
         cap = cv2.VideoCapture(0)
-        gesture_recognition = Gesture()
-        while True:
+        gesturerecognition = Gesture()
+
+        while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
                 break
 
-            gesture_name = gesture_recognition.recognize_gesture(frame)
-            threat_level = gesture_recognition.get_threat_level(gesture_name)
+            gesturerecognition.recognizegesture(frame)
 
-            # Encode frame to JPEG format
-            _, jpeg = cv2.imencode('.jpg', frame)
-            frame_data = jpeg.tobytes()
-            # Yield the frame as a Base64-encoded image
-            yield f"data:image/jpeg;base64,{frame_data.decode('base64')}\n"
+            cv2.imshow('Gesture Recognition', frame)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
         cap.release()
+        cv2.destroyAllWindows()
 
     return Response(generate(), mimetype='text/event-stream')
 

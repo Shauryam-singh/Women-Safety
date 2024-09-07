@@ -3,117 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Women Safety Analytics</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Safe Sight Ai</title>
+    <link rel="stylesheet" href="../static/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="/">Women Safety Analytics</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
-                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-                <li><a href="{{ url_for('speech_analysis') }}">Speech Analysis</a></li>
-                <li><a href="#cta">Get Started</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div id="nav">
+        <div id="logo-v">
+            <video autoplay muted loop src="../static/SafeSight-Ai-logo color.mp4 color.mp4"></video>
         </div>
-    </nav>
+        <a href="/">Home</a></li>
+        <a href="{{ url_for('geofencing') }}">Geofencing</a>
+        <a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a>
+        <a href="{{ url_for('video_analytics') }}">Video Analytics</a>
+        <a href="{{ url_for('speech_analysis') }}">Speech Analysis</a>
+        <a href="{{ url_for('threat_level_detection') }}">Threat Recognition</a>
+    </div>
+    <!-- 10% gap -->
+     <div id="gap10"></div>
+    <!-- main section -->
+     <div id="main">
+        <h1>Women's Security Using AI-Powered With <span class="hover:bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)] ease-linear">SafeSight.ai</span></h1>
+        <button class="boton-elegante">Explore</button>
+     </div>
+    <!-- key features section -->
+     <br>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Advanced Safety Solutions for a Better Tomorrow</h1>
-                <p>We provide intelligent tools to enhance security, monitor activities, and analyze gestures in real-time for personal and community safety.</p>
-                <a href="#services" class="btn">Explore Services</a>
-            </div>
-        </div>
-    </section>
+     <h1 class="bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)]" style="font-size: 7rem; margin-left: 3rem;">.Key Features</h1>
+     <div id="key-fea">
+        
+<div
+  class="h-[16em] w-[18em] border-2 border-[rgba(75,30,133,0.5)] rounded-[1.5em] bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)] text-white font-nunito p-[1em] flex justify-center items-left flex-col gap-[0.75em] backdrop-blur-[12px] justify-around"
+>
+    <div>
+        <h1 class="text-[2em] font-medium">Gesture Recognition</h1>
+        <p class="text-[0.85em]">
+            Real-time hand gesture recognition to identify SOS signals or other predefined gestures.
+        </p>
+    </div>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2>Key Features</h2>
-            <div class="feature-cards">
-                <div class="card">
-                    <h3>Speech Analysis</h3>
-                    <p>Monitor audio patterns to detect distress signals and alert relevant authorities automatically.</p>
-                </div>
-                <div class="card">
-                    <h3>Gesture Recognition</h3>
-                    <p>Real-time hand gesture recognition to identify SOS signals or other predefined gestures.</p>
-                </div>
-                <div class="card">
-                    <h3>Video Analytics</h3>
-                    <p>Analyze video feeds for suspicious activities and anomalies, enhancing safety measures.</p>
-                </div>
-                <div class="card">
-                    <h3>Geofencing</h3>
-                    <p>Define virtual boundaries for safety and get alerts when users cross designated areas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <button
+        class="h-fit w-fit px-[1em] py-[0.25em] border-[1px] rounded-full flex justify-center items-center gap-[0.5em] overflow-hidden group hover:translate-y-[0.125em] duration-200 backdrop-blur-[12px]"
+    >
+        <a href="{{ url_for('geofencing') }}">try now</a>
+        <svg
+        class="w-6 h-6 group-hover:translate-x-[10%] duration-300"
+        stroke="currentColor"
+        stroke-width="1"
+        viewBox="0 0 24 24"
+        fill="white"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+        ></path>
+        </svg>
+    </button>
+    </div>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service-grid">
-                <div class="service-item">
-                    <h3>Speech Analysis</h3>
-                    <p>Automatically detect and analyze distress calls from surrounding audio, providing instant alerts to emergency contacts.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Gesture Recognition</h3>
-                    <p>Accurately recognize critical gestures like SOS signals in real-time video to trigger immediate actions.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Geofencing & Alerts</h3>
-                    <p>Set up geofences around sensitive areas and get alerts if someone leaves or enters a restricted area.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Route Finder</h3>
-                    <p>Generate safe routes with real-time data to help users navigate securely to their destination.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div
+  class="h-[16em] w-[18em] border-2 border-[rgba(75,30,133,0.5)] rounded-[1.5em] bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)] text-white font-nunito p-[1em] flex justify-center items-left flex-col gap-[0.75em] backdrop-blur-[12px] justify-around"
+>
+  <div>
+    <h1 class="text-[2em] font-medium">Video Analytics</h1>
+    <p class="text-[0.85em]">
+        Analyze video feeds for suspicious activities and anomalies, enhancing safety measures.
+    </p>
+  </div>
 
-    <!-- Call to Action Section -->
-    <section id="cta" class="cta">
-        <div class="container">
-            <h2>Ready to Enhance Your Safety?</h2>
-            <p>Start using our advanced safety analytics today to safeguard yourself and your loved ones.</p>
-            <a href="" class="btn">Get Started</a>
-        </div>
-    </section>
+  <button
+    class="h-fit w-fit px-[1em] py-[0.25em] border-[1px] rounded-full flex justify-center items-center gap-[0.5em] overflow-hidden group hover:translate-y-[0.125em] duration-200 backdrop-blur-[12px]"
+  >
+  <a href="{{ url_for('video_analytics') }}">try now</a>
+    <svg
+      class="w-6 h-6 group-hover:translate-x-[10%] duration-300"
+      stroke="currentColor"
+      stroke-width="1"
+      viewBox="0 0 24 24"
+      fill="white"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </button>
+</div>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
-            </div>
-        </div>
-    </footer>
+<div
+  class="h-[16em] w-[18em] border-2 border-[rgba(75,30,133,0.5)] rounded-[1.5em] bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)] text-white font-nunito p-[1em] flex justify-center items-left flex-col gap-[0.75em] backdrop-blur-[12px] justify-around"
+>
+  <div>
+    <h1 class="text-[2em] font-medium">Geofencing</h1>
+    <p class="text-[0.85em]">
+        Define virtual boundaries for safety and get alerts when users cross designated areas.
+    </p>
+  </div>
 
-    <!-- Add script to handle gesture recognition -->
-    <script>
-        document.getElementById('gesture-recognition-link').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default anchor behavior
+  <button
+    class="h-fit w-fit px-[1em] py-[0.25em] border-[1px] rounded-full flex justify-center items-center gap-[0.5em] overflow-hidden group hover:translate-y-[0.125em] duration-200 backdrop-blur-[12px]"
+  >
+  <a href="{{ url_for('geofencing') }}">try now</a>
+    <svg
+      class="w-6 h-6 group-hover:translate-x-[10%] duration-300"
+      stroke="currentColor"
+      stroke-width="1"
+      viewBox="0 0 24 24"
+      fill="white"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </button>
+</div>
+<div
+  class="h-[16em] w-[18em] border-2 border-[rgba(75,30,133,0.5)] rounded-[1.5em] bg-gradient-to-br from-[rgba(75,30,133,1)] to-[rgba(75,30,133,0.01)] text-white font-nunito p-[1em] flex justify-center items-left flex-col gap-[0.75em] backdrop-blur-[12px] justify-around"
+>
+  <div>
+    <h1 class="text-[2em] font-medium">Speech Analysis</h1>
+    <p class="text-[0.85em]">
+        Monitor audio patterns to detect distress signals and alert relevant authorities automatically.
+    </p>
+  </div>
 
-            // Handle gesture recognition functionality here, e.g., open a modal or redirect
-            alert('Gesture Recognition feature is not yet implemented.');
-        });
-    </script>
+  <button
+    class="h-fit w-fit px-[1em] py-[0.25em] border-[1px] rounded-full flex justify-center items-center gap-[0.5em] overflow-hidden group hover:translate-y-[0.125em] duration-200 backdrop-blur-[12px]"
+  >
+  <a href="{{ url_for('speech_analysis') }}">try now</a>
+    <svg
+      class="w-6 h-6 group-hover:translate-x-[10%] duration-300"
+      stroke="currentColor"
+      stroke-width="1"
+      viewBox="0 0 24 24"
+      fill="white"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </button>
+</div>
+</div>
+</div>
+
+
+
+<!--tutorial-->
+<div id="tuto">
+  <div class="cover"><img src="../static/girl in middle of the road.jpeg" alt=""><h1>Detecting The Females.</h1></div>
+  <div class="cover"><img src="../static/confused girl in middle of the road.jpeg" alt=""><h2>Detecting The Strangeness & Actions</h2></div>
+  <div class="cover"><img src="../static/grl in danger.jpg" alt=""><h1>Detecting The Agressive Behavior</h1></div>
+</div>
+
+<br>
+<div id="footer"></div>
 </body>
 </html>

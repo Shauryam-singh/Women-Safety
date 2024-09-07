@@ -3,105 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesture Recognition</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Safe Sight AI - Gesture Recognition</title>
+    <link rel="stylesheet" href="../static/gesture-reco.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="/">Women Safety Analytics</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
-                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-                <li><a href="#cta">Get Started</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div id="nav">
+        <div id="logo-v">
+            <video autoplay muted loop src="../static/SafeSight-Ai-logo color.mp4"></video>
         </div>
-    </nav>
-
-    <main>
-        <h1>Gesture Recognition</h1>
-        <video id="video" width="640" height="480" autoplay></video>
-        <button id="startCamera">Start Camera</button>
-        <div id="result">Gesture recognition in progress...</div>
-    </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
-            </div>
-        </div>
-    </footer>
+        <a href="/">Home</a>
+        <a href="{{ url_for('geofencing') }}">Geofencing</a>
+        <a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a>
+        <a href="{{ url_for('video_analytics') }}">Video Analytics</a>
+        <a href="{{ url_for('speech_analysis') }}">Speech Analysis</a>
+        <a href="{{ url_for('threat_level_detection') }}">Threat Recognition</a>
+    </div>
+    
+    <!-- Main section -->
+     <div id="main">
+         <h1>Gesture Recognition</h1>
+         <button id="start-recognition">Open Camera & Start Gesture Recognition</button>
+         <div id="result"></div>     
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('video');
+            const startButton = document.getElementById('start-recognition');
             const resultDiv = document.getElementById('result');
-            const startCameraButton = document.getElementById('startCamera');
 
-            let streaming = false;
+            startButton.addEventListener('click', function() {
+                startRecognition();
+            });
 
-            // Access webcam and start capturing frames
-            function startCamera() {
-                navigator.mediaDevices.getUserMedia({ video: true })
-                    .then(stream => {
-                        video.srcObject = stream;
-                        video.play();
-
-                        // Create a canvas to draw video frames
-                        const canvas = document.createElement('canvas');
-                        canvas.width = video.width;
-                        canvas.height = video.height;
-                        const context = canvas.getContext('2d');
-
-                        function captureFrame() {
-                            if (!streaming) return;
-
-                            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                            const imageData = canvas.toDataURL('image/jpeg');
-                            
-                            // Send frame to server for gesture recognition
-                            fetch('/recognize_gesture', {
-                                method: 'POST',
-                                body: JSON.stringify({ image: imageData }),
-                                headers: { 'Content-Type': 'application/json' }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                resultDiv.textContent = `Gesture Recognized: ${data.gesture}`;
-                            })
-                            .catch(err => console.error('Error:', err));
-
-                            // Continue capturing frames
-                            requestAnimationFrame(captureFrame);
-                        }
-
-                        startCameraButton.addEventListener('click', function() {
-                            if (!streaming) {
-                                streaming = true;
-                                startCameraButton.textContent = 'Stop Camera';
-                                captureFrame();
-                            } else {
-                                streaming = false;
-                                startCameraButton.textContent = 'Start Camera';
-                            }
-                        });
-                    })
-                    .catch(err => {
-                        console.error('Error accessing webcam: ', err);
-                    });
+            function startRecognition() {
+                // Send a request to the Flask server to start gesture recognition
+                fetch('/recognize_gesture', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.gesture) {
+                        resultDiv.textContent = `Gesture Detected: ${data.gesture}`;
+                    } else if (data.error) {
+                        resultDiv.textContent = `Error: ${data.error}`;
+                    }
+                })
+                .catch(err => {
+                    console.error('Error recognizing gesture:', err);
+                    resultDiv.textContent = 'An error occurred while recognizing the gesture.';
+                });
             }
-
-            startCamera();
         });
     </script>
 </body>

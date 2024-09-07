@@ -3,58 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speech Analysis</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Safe Sight Ai</title>
+    <link rel="stylesheet" href="../static/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="/">Women Safety Analytics</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
-                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-                <li><a href="{{ url_for('speech_analysis') }}">Speech Analysis</a></li>
-                <li><a href="#cta">Get Started</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+    <div id="nav">
+        <div id="logo-v">
+            <video autoplay muted loop src="../static/SafeSight-Ai-logo color.mp4"></video>
         </div>
-    </nav>
-
-    <main>
-        <h1>Speech Analysis</h1>
-        <form action="{{ url_for('speech_analysis') }}" method="POST">
-            <label for="duration">Speech Duration (seconds):</label>
-            <input type="number" name="duration" id="duration" value="5" required>
-            <button type="submit">Analyze Speech</button>
-        </form>
-
-        {% if results %}
-            <div>
-                <h2>Recording Details</h2>
-                <p><strong>Recording Status:</strong> Finished recording.</p>
-                <p><strong>Transcription:</strong> {{ results.transcription }}</p>
-                <p><strong>Distress Detection:</strong> {% if results.distress_detected %} Distress detected! {% else %} No distress detected. {% endif %}</p>
-            </div>
-        {% else %}
-            <p>No results to display.</p>
-        {% endif %}
-
-    </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
-            </div>
+        <a href="/">Home</a>
+        <a href="{{ url_for('geofencing') }}">Geofencing</a>
+        <a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a>
+        <a href="{{ url_for('video_analytics') }}">Video Analytics</a>
+        <a href="{{ url_for('speech_analysis') }}">Speech Analysis</a>
+        <a href="{{ url_for('threat_level_detection') }}">Threat Recognition</a>
+    </div>
+    <!-- 10% gap -->
+     <div id="gap10"></div>
+    <!-- main section -->
+     <div id="main">
+         <h1>Speech Analysis</h1>
+         <form action="{{ url_for('speech_analysis') }}" method="POST">
+             <label for="duration">Speech Duration (seconds):</label>
+             <input type="number" name="duration" id="duration" value="5" required>
+             <button type="submit">Analyze Speech</button>
+            </form>    
         </div>
-    </footer>
 </body>
 </html>
