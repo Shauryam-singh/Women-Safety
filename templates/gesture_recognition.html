@@ -4,44 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesture Recognition</title>
-    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="logo">
-                <a href="/">Women Safety Analytics</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
-                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
-                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-                <li><a href="#cta">Get Started</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <h1>Gesture Recognition</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="start-recognition">Start Recognition</button>
+    <div id="result"></div>
 
-    <main>
-        <h1>Gesture Recognition</h1>
-        <video id="video" width="640" height="480" autoplay></video>
-        <button id="start-recognition">Start Recognition</button>
-        <div id="result"></div>
-    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('video');
+            const startButton = document.getElementById('start-recognition');
+            const resultDiv = document.getElementById('result');
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
-                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
-            </div>
-        </div>
-    </footer>
+            // Access webcam
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error('Error accessing webcam: ', err);
+                });
 
-    <script src="../static/script.js"></script>
+            startButton.addEventListener('click', function() {
+                startRecognition();
+            });
+
+            function startRecognition() {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                canvas.width = video.width;
+                canvas.height = video.height;
+
+                // Capture video frame every second and send to the server
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob(blob => {
+                        const formData = new FormData();
+                        formData.append('video_frame', blob);
+
+                        fetch('/recognize_gesture', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            resultDiv.textContent = `Gesture Detected: ${data.gesture}`;
+                        })
+                        .catch(err => {
+                            console.error('Error recognizing gesture: ', err);
+                        });
+                    }, 'image/jpeg');
+                }, 1000); // Send a frame every second
+            }
+        });
+    </script>
 </body>
 </html>

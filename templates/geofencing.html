@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geofencing</title>
     <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -17,7 +17,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
                 <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
-                <li><a href="{{ url_for('gesture_recognition') }}">Gesture Recognition</a></li>
+                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
                 <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
                 <li><a href="#cta">Get Started</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -27,17 +27,18 @@
 
     <main>
         <h1>Geofencing</h1>
-        <form action="{{ url_for('geofencing') }}" method="post">
+        <form method="POST" action="{{ url_for('geofencing') }}">
             <label for="latitude">Latitude:</label>
             <input type="text" id="latitude" name="latitude" required>
-            <br>
             <label for="longitude">Longitude:</label>
             <input type="text" id="longitude" name="longitude" required>
-            <br>
-            <input type="submit" value="Check Geofence">
+            <button type="submit">Check Geofence</button>
         </form>
+        
         {% if result %}
-            <p>{{ result }}</p>
+        <h2>Result: {{ result }}</h2>
+        {% elif error %}
+        <h2>Error: {{ error }}</h2>
         {% endif %}
     </main>
 

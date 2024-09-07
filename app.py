@@ -2,12 +2,11 @@ from flask import Flask, request, render_template, redirect, url_for, jsonify
 from src.Geofencing import check_geofence
 from src.Route_finder import create_route
 from src.Speech_analyse import analyze_speech
-from src.alert_system import AlertSystem
-from src.anomaly_detection import detect_anomalies
-from src.gesture_recognition import GestureRecognition
 from src.video_analytics import VideoAnalytics
-from src.gesture_recognition import GestureRecognition
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+from src.gesture_recognition import GestureRecognition
 import numpy as np
 import cv2
 
@@ -54,10 +53,12 @@ def speech_analysis():
         return render_template('analyze_speech.html')
     except Exception as e:
         return str(e)
-
 @app.route('/gesture_recognition_page')
 def gesture_recognition_page():
     return render_template('gesture_recognition.html')
+
+recipient_phone = "+916307257097"
+gesture_recognition = GestureRecognition(recipient_phone)
 
 @app.route('/recognize_gesture', methods=['POST'])
 def recognize_gesture():
@@ -68,7 +69,7 @@ def recognize_gesture():
     np_img = np.frombuffer(video_frame, np.uint8)
     img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-    gesture_name = GestureRecognition.recognize_gesture(img)
+    gesture_name = gesture_recognition.recognize_gesture(img)
 
     return jsonify({'gesture': gesture_name})
 

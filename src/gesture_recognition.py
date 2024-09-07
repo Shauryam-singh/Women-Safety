@@ -1,6 +1,9 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from alert_system import AlertSystem
 
 class GestureRecognition:
@@ -54,7 +57,6 @@ class GestureRecognition:
             return None
 
     def detect_sos_signal(self, landmarks):
-        # Example logic for SOS gesture: Both hands raised and open
         left_wrist = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_WRIST]
         left_shoulder = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER]
         right_wrist = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST]
@@ -64,51 +66,43 @@ class GestureRecognition:
         right_hand_up = right_wrist.y < right_shoulder.y
         left_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.LEFT_WRIST)
         right_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.RIGHT_WRIST)
-        
+
         return left_hand_up and right_hand_up and left_hand_open and right_hand_open
 
     def detect_help_signal(self, landmarks):
-        # Example logic for Help gesture: Hands open and facing camera
         left_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.LEFT_WRIST)
         right_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.RIGHT_WRIST)
         return left_hand_open and right_hand_open
 
     def detect_call_for_help(self, landmarks):
-        # Example logic for Call for Help gesture: Right hand touching the ear
         right_hand_on_ear = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].x < landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].x and \
                             landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].y
         return right_hand_on_ear
 
     def detect_stop_signal(self, landmarks):
-        # Example logic for Stop gesture: Open palm facing camera
         left_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.LEFT_WRIST)
         return left_hand_open
 
     def detect_no_signal(self, landmarks):
-        # Example logic for No gesture: Head tilted side-to-side
         head_tilted = landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].y < landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_EAR].y
         return head_tilted
 
     def detect_danger_signal(self, landmarks):
-        # Example logic for Danger gesture: Hand near throat
         hand_near_throat = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_WRIST].x < landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].x and \
                            landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].y
         return hand_near_throat
 
     def detect_yell_signal(self, landmarks):
-        # Example logic for Yell gesture: Hand raised to mouth
         hand_near_mouth = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].x < landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_ELBOW].x and \
                           landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].y
         return hand_near_mouth
 
     def is_hand_open(self, landmarks, wrist_landmark):
-        # Check if hand is open based on wrist position relative to shoulder
         wrist_y = landmarks.landmark[wrist_landmark].y
         shoulder_y = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER if wrist_landmark == self.mp_pose.PoseLandmark.LEFT_WRIST else self.mp_pose.PoseLandmark.RIGHT_SHOULDER].y
         return wrist_y < shoulder_y
 
     def display_gesture_name(self, frame, gesture_name):
-        # Display the gesture name on the frame
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(frame, f"Gesture: {gesture_name}", (10, 50), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
