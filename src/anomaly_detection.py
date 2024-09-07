@@ -8,3 +8,7 @@ class AnomalyDetection:
             print("Anomaly detected!")
             return True
         return False
+
+def detect_anomalies(data):
+    detector = AnomalyDetection()
+    return detector.detect_anomaly(data)

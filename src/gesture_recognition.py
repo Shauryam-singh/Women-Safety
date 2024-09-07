@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-from alert_system import AlertSystem  # Replace with the actual module name
+from src.alert_system import AlertSystem
 
 class GestureRecognition:
     def __init__(self, recipient_phone):
@@ -56,8 +56,6 @@ class GestureRecognition:
             return "Danger"
         elif self.detect_yell_signal(landmarks):  # New gesture example
             return "Yell"
-        elif self.detect_come_here_signal(landmarks):  # New gesture example
-            return "Come Here"
         else:
             return None
 
@@ -102,12 +100,6 @@ class GestureRecognition:
         hand_near_mouth = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].x < landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_ELBOW].x and \
                           landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.NOSE].y
         return hand_near_mouth
-
-    def detect_come_here_signal(self, landmarks):
-        # Example logic for Come Here gesture: Hand waved toward body
-        hand_waved = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].x < landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].x and \
-                     landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].y > landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].y
-        return hand_waved
 
     def is_hand_open(self, landmarks, wrist_landmark):
         # Check if hand is open based on wrist position relative to shoulder

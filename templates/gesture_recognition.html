@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Gesture Recognition</h1>
+    <form action="{{ url_for('gesture_recognition') }}" method="POST" enctype="multipart/form-data">
+        <label for="video_file">Upload Video for Gesture Recognition:</label>
+        <input type="file" name="video_file" id="video_file" accept="video/*" required>
+        <button type="submit">Submit</button>
+    </form>
+    {% if result %}
+        <h2>Recognition Result</h2>
+        <p>{{ result }}</p>
+    {% endif %}
+</body>
+</html>

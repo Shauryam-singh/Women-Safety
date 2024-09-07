@@ -1,6 +1,5 @@
 import pywhatkit as kit
 import requests
-import urllib.parse
 
 class AlertSystem:
     def __init__(self, recipient_phone):

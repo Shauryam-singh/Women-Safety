@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Safety Dashboard</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
+            <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
+            <li><a href="{{ url_for('speech_analyse') }}">Speech Analysis</a></li>
+            <li><a href="{{ url_for('gesture_recognition') }}">Gesture Recognition</a></li>
+            <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

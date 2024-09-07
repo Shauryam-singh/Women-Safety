@@ -63,3 +63,8 @@ Time: 18:42
 Phone Number: +916307257097
 Message: Urgent: SOS detected!Current Location:Latitude: 28.58Longitude: 77.33Map: https://www.google.com/maps/search/?api=1&query=28.58,77.33&key=AIzaSyC6UBHOuZA6MnWlRa_PABe_Ag7hWZZIJ5c
 --------------------
+Date: 6/9/2024
+Time: 23:3
+Phone Number: +916307257097
+Message: SOSCurrent Location:Latitude: 28.58Longitude: 77.33Map: https://www.google.com/maps/search/?api=1&query=28.58,77.33&key=AIzaSyC6UBHOuZA6MnWlRa_PABe_Ag7hWZZIJ5c
+--------------------

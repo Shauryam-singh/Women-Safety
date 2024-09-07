@@ -94,15 +94,12 @@ def transcribe_audio(audio_signal, sample_rate=16000):
     # Remove the temporary audio file
     os.remove(audio_file)
 
-def main():
+def analyze_speech(duration=5):
     with open(r'model\model.pkl', 'rb') as f:
         model = pickle.load(f)
     with open(r'model\scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
 
-    audio_signal = record_audio(duration=5)
+    audio_signal = record_audio(duration)
     transcribe_audio(audio_signal)  # Transcribe the audio
     alert_if_distress(audio_signal, model, scaler)
-
-if __name__ == "__main__":
-    main()

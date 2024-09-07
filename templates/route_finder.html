@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Route Finder</h1>
+    <form action="{{ url_for('route_finder') }}" method="post">
+        <label for="start_location">Start Location (lat,long):</label>
+        <input type="text" id="start_location" name="start_location" required>
+        <br>
+        <label for="end_location">End Location (lat,long):</label>
+        <input type="text" id="end_location" name="end_location" required>
+        <br>
+        <input type="submit" value="Find Route">
+    </form>
+    {% if route_info %}
+        <h2>Route Information</h2>
+        <p>Route Coordinates: {{ route_info['route'] }}</p>
+        <p>Duration (seconds): {{ route_info['duration'] }}</p>
+        <p>Distance (meters): {{ route_info['distance'] }}</p>
+    {% elif error %}
+        <p>Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>

@@ -23,22 +23,3 @@ def create_route(start_location, end_location, profile='driving-car'):
         }
     else:
         raise Exception("Error fetching route data: No routes found or route data is empty")
-
-def main():
-    start_location = '8.681495,49.41443'
-    end_location = '8.687872,49.420318'
-    profile = 'driving-car'  # Other profiles can be 'cycling-regular', 'foot-walking', etc.
-
-    try:
-        route_info = create_route(start_location, end_location, profile)
-
-        print("Route Information:")
-        print(f"Route Coordinates: {route_info['route']}")
-        print(f"Duration (seconds): {route_info['duration']}")
-        print(f"Distance (meters): {route_info['distance']}")
-        
-    except Exception as e:
-        print(f"Error: {e}")
-
-if __name__ == "__main__":
-    main()
