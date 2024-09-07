@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
@@ -17,8 +16,7 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
-                <li><a href="{{ url_for('gesture_recognition') }}">Gesture Recognition</a></li>
+                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
                 <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
                 <li><a href="#cta">Get Started</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -36,14 +34,18 @@
             <button type="submit">Submit</button>
         </form>
 
-        <!-- Open Camera Button -->
-        <form action="{{ url_for('open_camera') }}" method="GET">
-            <button type="submit">Open Camera</button>
-        </form>
-
         {% if result %}
         <h2>Analytics Result</h2>
         <p>{{ result }}</p>
+        {% endif %}
+
+        {% if log_entries %}
+        <h2>Activity Log</h2>
+        <ul>
+            {% for entry in log_entries %}
+            <li>{{ entry }}</li>
+            {% endfor %}
+        </ul>
         {% endif %}
     </main>
         

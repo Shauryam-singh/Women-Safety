@@ -1,12 +1,15 @@
 import pyaudio
 import numpy as np
-import os
 import librosa
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 import pickle
 import speech_recognition as sr
-import soundfile as sf  # Import soundfile for saving audio files
+import soundfile as sf
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from alert_system import AlertSystem
 
 def record_audio(duration=5, sample_rate=16000):
     chunk = 1024
@@ -55,9 +58,9 @@ def train_model():
     if not os.path.exists('model'):
         os.makedirs('model')
     
-    with open(r'model\model.pkl', 'wb') as f:
+    with open('model/model.pkl', 'wb') as f:
         pickle.dump(model, f)
-    with open(r'model\scaler.pkl', 'wb') as f:
+    with open('model/scaler.pkl', 'wb') as f:
         pickle.dump(scaler, f)
     
     print("Model trained and saved.")
@@ -81,25 +84,45 @@ def transcribe_audio(audio_signal, sample_rate=16000):
     audio_file = "temp_audio.wav"
     sf.write(audio_file, audio_signal, sample_rate)  # Use soundfile to write the audio file
     
-    with sr.AudioFile(audio_file) as source:
-        audio_data = recognizer.record(source)
-        try:
-            text = recognizer.recognize_google(audio_data)
-            print("Transcription:", text)
-        except sr.UnknownValueError:
-            print("Google Speech Recognition could not understand the audio")
-        except sr.RequestError as e:
-            print(f"Could not request results from Google Speech Recognition service; {e}")
+    transcription = ""
+    try:
+        with sr.AudioFile(audio_file) as source:
+            audio_data = recognizer.record(source)
+            transcription = recognizer.recognize_google(audio_data)
+            print("Transcription:", transcription)
+    except sr.UnknownValueError:
+        transcription = "Google Speech Recognition could not understand the audio"
+        print(transcription)
+    except sr.RequestError as e:
+        transcription = f"Could not request results from Google Speech Recognition service; {e}"
+        print(transcription)
     
     # Remove the temporary audio file
     os.remove(audio_file)
 
-def analyze_speech(duration=5):
-    with open(r'model\model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    with open(r'model\scaler.pkl', 'rb') as f:
-        scaler = pickle.load(f)
+    return transcription
 
+def analyze_speech(duration=5):
+    # Load model and scaler
+    with open('model/model.pkl', 'rb') as f:
+        model = pickle.load(f)
+    with open('model/scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
+    
+    # Create an instance of the AlertSystem
+    alert_system = AlertSystem(recipient_phone="+916307257097")  # Replace with the actual recipient phone number
+    
+    # Record audio and process
     audio_signal = record_audio(duration)
-    transcribe_audio(audio_signal)  # Transcribe the audio
-    alert_if_distress(audio_signal, model, scaler)
+    transcription = transcribe_audio(audio_signal)  # Ensure this function returns a string
+    distress_detected = detect_distress(audio_signal, model, scaler)  # Boolean result
+
+    # Send an alert if distress is detected
+    if distress_detected:
+        message = f"Distress detected during speech analysis. \n\nTranscription: {transcription}"
+        alert_system.send_alert(message)
+
+    return {
+        'transcription': transcription,
+        'distress_detected': distress_detected
+    }

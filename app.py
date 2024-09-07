@@ -1,12 +1,13 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify
+from flask import Flask, request, render_template, redirect, url_for, jsonify, Response
 from src.Geofencing import check_geofence
-from src.Route_finder import create_route
-from src.Speech_analyse import analyze_speech
 from src.video_analytics import VideoAnalytics
 import sys
+import base64
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 from src.gesture_recognition import GestureRecognition
+from src.Gesture import Gesture
+from src.Speech_analyse import analyze_speech
 import numpy as np
 import cv2
 
@@ -15,7 +16,7 @@ app = Flask(__name__)
 ALERT_RECIPIENT_PHONE = "+916307257097"
 
 if not os.path.exists('temp'):
-    os.makedirs('temp')
+    os.makedirs('temp') 
 
 @app.route('/')
 def index():
@@ -33,64 +34,97 @@ def geofencing():
             return render_template('geofencing.html', error=f"Invalid input: {e}")
     return render_template('geofencing.html')
 
-@app.route('/route_finder', methods=['GET', 'POST'])
-def route_finder():
+@app.route('/speech_analysis', methods=['GET', 'POST'])
+def speech_analysis():
+    results = None
     if request.method == 'POST':
         try:
-            start_location = request.form.get('start_location')
-            end_location = request.form.get('end_location')
-            route_info = create_route(start_location, end_location)
-            return render_template('route_finder.html', route_info=route_info)
+            duration = int(request.form.get('duration', 5))
+            results = analyze_speech(duration)
+            print("Results:", results)  # Debug print statement
         except Exception as e:
-            return render_template('route_finder.html', error=str(e))
-    return render_template('route_finder.html')
+            print("Error:", e)  # Debug print statement
+            return str(e)
+    return render_template('speech_analysis.html', results=results)
 
-@app.route('/analyze_speech', methods=['POST'])
-def speech_analysis():
-    try:
-        duration = int(request.form.get('duration', 5)) 
-        analyze_speech(duration)
-        return render_template('analyze_speech.html')
-    except Exception as e:
-        return str(e)
 @app.route('/gesture_recognition_page')
 def gesture_recognition_page():
     return render_template('gesture_recognition.html')
 
-recipient_phone = "+916307257097"
-gesture_recognition = GestureRecognition(recipient_phone)
+
+gesture_recognition = GestureRecognition("+916307257097")
 
 @app.route('/recognize_gesture', methods=['POST'])
 def recognize_gesture():
-    if 'video_frame' not in request.files:
-        return jsonify({'error': 'No video frame found'}), 400
+    data = request.get_json()
+    image_data = data.get('image', '')
 
-    video_frame = request.files['video_frame'].read()
-    np_img = np.frombuffer(video_frame, np.uint8)
+    # Decode base64 image data
+    image_data = image_data.split(',')[1]  # Remove data:image/jpeg;base64,
+    image_bytes = base64.b64decode(image_data)
+    np_img = np.frombuffer(image_bytes, np.uint8)
     img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
 
-    gesture_name = gesture_recognition.recognize_gesture(img)
+    if img is None:
+        return jsonify({'error': 'Unable to decode image'}), 400
 
+    gesture_name = gesture_recognition.recognize_gesture(img)
     return jsonify({'gesture': gesture_name})
 
 @app.route('/video_analytics', methods=['GET', 'POST'])
 def video_analytics():
+    log_entries = []  # List to store log messages
     if request.method == 'POST' and 'video_file' in request.files:
         video_file = request.files['video_file']
         video_path = os.path.join('temp', video_file.filename)
-        video_file.save(video_path)
         
         try:
+            video_file.save(video_path)
+            log_entries.append(f"Video file saved to {video_path}")
+            
             video_analytics = VideoAnalytics(video_path)
             video_analytics.process_video()
+            
             result = "Video processed successfully!"
+            log_entries.append(result)
         except Exception as e:
-            result = f"Error: {e}"
+            error_message = f"Error: {e}"
+            log_entries.append(error_message)
+            result = error_message
         finally:
-            os.remove(video_path)
+            if os.path.exists(video_path):
+                os.remove(video_path)
+                log_entries.append(f"Video file {video_path} deleted.")
         
-        return render_template('video_analytics.html', result=result)
-    return render_template('video_analytics.html')
+        return render_template('video_analytics.html', result=result, log_entries=log_entries)
+    return render_template('video_analytics.html', log_entries=log_entries)
+
+@app.route('/threat_level_detection', methods=['GET'])
+def threat_level_detection():
+    return render_template('threat_level_detection.html')
+
+@app.route('/stream_feed')
+def stream_feed():
+    def generate():
+        cap = cv2.VideoCapture(0)
+        gesture_recognition = Gesture()
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            gesture_name = gesture_recognition.recognize_gesture(frame)
+            threat_level = gesture_recognition.get_threat_level(gesture_name)
+
+            # Encode frame to JPEG format
+            _, jpeg = cv2.imencode('.jpg', frame)
+            frame_data = jpeg.tobytes()
+            # Yield the frame as a Base64-encoded image
+            yield f"data:image/jpeg;base64,{frame_data.decode('base64')}\n"
+
+        cap.release()
+
+    return Response(generate(), mimetype='text/event-stream')
 
 if __name__ == "__main__":
     app.run(debug=True)
