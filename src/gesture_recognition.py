@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
-from src.alert_system import AlertSystem
+from alert_system import AlertSystem
 
 class GestureRecognition:
     def __init__(self, recipient_phone):
@@ -9,8 +9,7 @@ class GestureRecognition:
         self.pose = self.mp_pose.Pose(min_detection_confidence=0.8, min_tracking_confidence=0.8)
         self.mp_draw = mp.solutions.drawing_utils
         self.smoothing_buffer = []
-        
-        # Initialize the alert system with recipient phone
+
         self.alert_system = AlertSystem(recipient_phone)
 
     def recognize_gesture(self, frame):
@@ -41,30 +40,31 @@ class GestureRecognition:
         return len(self.smoothing_buffer) > 0 and all(g == self.smoothing_buffer[0] for g in self.smoothing_buffer)
 
     def detect_gestures(self, landmarks):
-        # Check gestures in order of confidence
         if self.detect_sos_signal(landmarks):
             return "SOS"
         elif self.detect_help_signal(landmarks):
             return "Help"
         elif self.detect_call_for_help(landmarks):
             return "Call for Help"
-        elif self.detect_stop_signal(landmarks):
-            return "Stop"
-        elif self.detect_no_signal(landmarks):
-            return "No"
         elif self.detect_danger_signal(landmarks):
             return "Danger"
-        elif self.detect_yell_signal(landmarks):  # New gesture example
+        elif self.detect_yell_signal(landmarks):
             return "Yell"
         else:
             return None
 
     def detect_sos_signal(self, landmarks):
         # Example logic for SOS gesture: Both hands raised and open
-        left_hand_up = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER].y
-        right_hand_up = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST].y < landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_SHOULDER].y
+        left_wrist = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_WRIST]
+        left_shoulder = landmarks.landmark[self.mp_pose.PoseLandmark.LEFT_SHOULDER]
+        right_wrist = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_WRIST]
+        right_shoulder = landmarks.landmark[self.mp_pose.PoseLandmark.RIGHT_SHOULDER]
+
+        left_hand_up = left_wrist.y < left_shoulder.y
+        right_hand_up = right_wrist.y < right_shoulder.y
         left_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.LEFT_WRIST)
         right_hand_open = self.is_hand_open(landmarks, self.mp_pose.PoseLandmark.RIGHT_WRIST)
+        
         return left_hand_up and right_hand_up and left_hand_open and right_hand_open
 
     def detect_help_signal(self, landmarks):

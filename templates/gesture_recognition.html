@@ -4,18 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesture Recognition</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    <h1>Gesture Recognition</h1>
-    <form action="{{ url_for('gesture_recognition') }}" method="POST" enctype="multipart/form-data">
-        <label for="video_file">Upload Video for Gesture Recognition:</label>
-        <input type="file" name="video_file" id="video_file" accept="video/*" required>
-        <button type="submit">Submit</button>
-    </form>
-    {% if result %}
-        <h2>Recognition Result</h2>
-        <p>{{ result }}</p>
-    {% endif %}
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="/">Women Safety Analytics</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
+                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
+                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
+                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
+                <li><a href="#cta">Get Started</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Gesture Recognition</h1>
+        <video id="video" width="640" height="480" autoplay></video>
+        <button id="start-recognition">Start Recognition</button>
+        <div id="result"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
+                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../static/script.js"></script>
 </body>
 </html>

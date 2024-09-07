@@ -8,6 +8,5 @@ pandas
 openrouteservice
 pyaudio 
 librosa 
-scikit-learn
 Flask
 SpeechRecognition

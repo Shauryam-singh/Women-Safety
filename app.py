@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 from src.Geofencing import check_geofence
 from src.Route_finder import create_route
 from src.Speech_analyse import analyze_speech
@@ -6,7 +6,9 @@ from src.alert_system import AlertSystem
 from src.anomaly_detection import detect_anomalies
 from src.gesture_recognition import GestureRecognition
 from src.video_analytics import VideoAnalytics
+from src.gesture_recognition import GestureRecognition
 import os
+import numpy as np
 import cv2
 
 app = Flask(__name__)
@@ -44,32 +46,31 @@ def route_finder():
             return render_template('route_finder.html', error=str(e))
     return render_template('route_finder.html')
 
-@app.route('/speech_analyse', methods=['POST'])
-def speech_analyse():
+@app.route('/analyze_speech', methods=['POST'])
+def speech_analysis():
     try:
         duration = int(request.form.get('duration', 5)) 
         analyze_speech(duration)
-        return render_template('speech_analyse.html')
+        return render_template('analyze_speech.html')
     except Exception as e:
         return str(e)
 
-@app.route('/gesture_recognition', methods=['GET', 'POST'])
-def gesture_recognition():
-    if request.method == 'POST' and 'video_file' in request.files:
-        video_file = request.files['video_file']
-        video_path = os.path.join('temp', video_file.filename)
-        video_file.save(video_path)
-        
-        try:
-            gesture_recognition = GestureRecognition(ALERT_RECIPIENT_PHONE)
-            frame = cv2.imread(video_path)
-            result = gesture_recognition.recognize_gesture(frame)
-            return render_template('gesture_recognition.html', result=result)
-        except Exception as e:
-            return render_template('gesture_recognition.html', result=f"Error: {e}")
-        finally:
-            os.remove(video_path)
+@app.route('/gesture_recognition_page')
+def gesture_recognition_page():
     return render_template('gesture_recognition.html')
+
+@app.route('/recognize_gesture', methods=['POST'])
+def recognize_gesture():
+    if 'video_frame' not in request.files:
+        return jsonify({'error': 'No video frame found'}), 400
+
+    video_frame = request.files['video_frame'].read()
+    np_img = np.frombuffer(video_frame, np.uint8)
+    img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+
+    gesture_name = GestureRecognition.recognize_gesture(img)
+
+    return jsonify({'gesture': gesture_name})
 
 @app.route('/video_analytics', methods=['GET', 'POST'])
 def video_analytics():

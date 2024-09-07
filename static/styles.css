@@ -1,147 +1,254 @@
-/* General body styles */
+/* General Styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f9;
     color: #333;
 }
 
-.container {
-    max-width: 960px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 h1, h2, h3 {
-    text-align: center;
-    color: #2a9d8f;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-h1 {
-    font-size: 2.5em;
-}
-
-h2 {
-    font-size: 1.8em;
-}
-
-/* Form styles */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-form label {
-    font-size: 1.1em;
     color: #264653;
 }
 
-form input[type="text"],
-form input[type="number"],
-form input[type="file"] {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-    width: 100%;
+main{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-form input[type="submit"],
-button {
-    padding: 12px;
-    font-size: 1.1em;
-    color: #fff;
+/* Form Styling */
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="file"],
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button,
+form input[type="submit"] {
     background-color: #2a9d8f;
+    color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 1em;
 }
 
-form input[type="submit"]:hover,
-button:hover {
+form button:hover,
+form input[type="submit"]:hover {
     background-color: #21867a;
 }
 
-/* Result section */
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #e9f5f3;
-    border-left: 5px solid #2a9d8f;
-    font-size: 1.1em;
+/* Result Message Styling */
+p {
+    text-align: center;
+    font-size: 1.2em;
 }
 
 .error {
-    color: #e63946;
-    font-weight: bold;
-    font-size: 1.1em;
+    color: red;
 }
 
 .success {
-    color: #2a9d8f;
+    color: green;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #264653;
+    padding: 15px 0;
+    color: white;
+}
+.navbar .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navbar .logo a {
+    color: white;
+    font-size: 1.5em;
     font-weight: bold;
-    font-size: 1.1em;
+    text-decoration: none;
 }
 
-/* Button styles */
-button {
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #264653;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.navbar .nav-links {
+    list-style: none;
+    float: right;
 }
 
-button:hover {
-    background-color: #1e3a40;
+.navbar .nav-links li {
+    display: inline-block;
+    margin-left: 20px;
 }
 
-/* Table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-}
-
-table th, table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-table th {
-    background-color: #2a9d8f;
+.navbar .nav-links li a {
     color: white;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-table tr:hover {
-    background-color: #f1f1f1;
+.navbar .nav-links li a:hover {
+    text-decoration: underline;
 }
 
-/* Footer styles */
-footer {
+/* Hero Section */
+.hero {
+    background-image: url('/static/hero-bg.jpg'); /* Add a suitable background image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 120px 0;
     text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.8em;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-top: 15px;
+}
+
+.hero .btn {
+    background-color: #2a9d8f;
+    padding: 15px 30px;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.hero .btn:hover {
+    background-color: #21867a;
+}
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background-color: #f4f4f9;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.feature-cards .card {
+    background-color: white;
     padding: 20px;
-    margin-top: 30px;
+    margin: 10px;
+    border-radius: 10px;
+    flex-basis: 24%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card h3 {
+    color: #2a9d8f;
+}
+
+/* Services Section */
+.services {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.services h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.service-grid {
+    display: flex;
+    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.service-item {
+    background-color: #f4f4f9;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    flex-basis: 48%;
+    text-align: center;
+}
+
+/* Call to Action Section */
+.cta {
+    background-color: #2a9d8f;
+    padding: 60px 0;
+    text-align: center;
+    color: white;
+}
+
+.cta h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.cta p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.cta .btn {
+    background-color: white;
+    color: #2a9d8f;
+    padding: 15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.cta .btn:hover {
+    background-color: #21867a;
+    color: white;
+}
+
+/* Footer */
+footer {
     background-color: #264653;
     color: white;
+    padding: 30px 0;
+    text-align: center;
 }
 
 footer a {
-    color: #fff;
+    color: #2a9d8f;
     text-decoration: none;
-    font-weight: bold;
 }
 
 footer a:hover {

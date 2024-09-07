@@ -3,19 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safety Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Women Safety Analytics</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Safety Dashboard</h1>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
-            <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
-            <li><a href="{{ url_for('speech_analyse') }}">Speech Analysis</a></li>
-            <li><a href="{{ url_for('gesture_recognition') }}">Gesture Recognition</a></li>
-            <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
-        </ul>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="/">Women Safety Analytics</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
+                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
+                <li><a href="{{ url_for('gesture_recognition_page') }}">Gesture Recognition</a></li>
+                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
+                <li><a href="#cta">Get Started</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Advanced Safety Solutions for a Better Tomorrow</h1>
+                <p>We provide intelligent tools to enhance security, monitor activities, and analyze gestures in real-time for personal and community safety.</p>
+                <a href="#services" class="btn">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="feature-cards">
+                <div class="card">
+                    <h3>Speech Analysis</h3>
+                    <p>Monitor audio patterns to detect distress signals and alert relevant authorities automatically.</p>
+                </div>
+                <div class="card">
+                    <h3>Gesture Recognition</h3>
+                    <p>Real-time hand gesture recognition to identify SOS signals or other predefined gestures.</p>
+                </div>
+                <div class="card">
+                    <h3>Video Analytics</h3>
+                    <p>Analyze video feeds for suspicious activities and anomalies, enhancing safety measures.</p>
+                </div>
+                <div class="card">
+                    <h3>Geofencing</h3>
+                    <p>Define virtual boundaries for safety and get alerts when users cross designated areas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Our Services</h2>
+            <div class="service-grid">
+                <div class="service-item">
+                    <h3>Speech Analysis</h3>
+                    <p>Automatically detect and analyze distress calls from surrounding audio, providing instant alerts to emergency contacts.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Gesture Recognition</h3>
+                    <p>Accurately recognize critical gestures like SOS signals in real-time video to trigger immediate actions.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Geofencing & Alerts</h3>
+                    <p>Set up geofences around sensitive areas and get alerts if someone leaves or enters a restricted area.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Route Finder</h3>
+                    <p>Generate safe routes with real-time data to help users navigate securely to their destination.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="cta" class="cta">
+        <div class="container">
+            <h2>Ready to Enhance Your Safety?</h2>
+            <p>Start using our advanced safety analytics today to safeguard yourself and your loved ones.</p>
+            <a href="" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
+                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add script to handle gesture recognition -->
+    <script>
+        document.getElementById('gesture-recognition-link').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Handle gesture recognition functionality here, e.g., open a modal or redirect
+            alert('Gesture Recognition feature is not yet implemented.');
+        });
+    </script>
 </body>
 </html>

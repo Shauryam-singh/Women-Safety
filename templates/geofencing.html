@@ -4,21 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geofencing</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="../static/styles.css">
 </head>
 <body>
-    <h1>Geofencing</h1>
-    <form action="{{ url_for('geofencing') }}" method="post">
-        <label for="latitude">Latitude:</label>
-        <input type="text" id="latitude" name="latitude" required>
-        <br>
-        <label for="longitude">Longitude:</label>
-        <input type="text" id="longitude" name="longitude" required>
-        <br>
-        <input type="submit" value="Check Geofence">
-    </form>
-    {% if result %}
-        <p>{{ result }}</p>
-    {% endif %}
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="/">Women Safety Analytics</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="{{ url_for('geofencing') }}">Geofencing</a></li>
+                <li><a href="{{ url_for('route_finder') }}">Route Finder</a></li>
+                <li><a href="{{ url_for('gesture_recognition') }}">Gesture Recognition</a></li>
+                <li><a href="{{ url_for('video_analytics') }}">Video Analytics</a></li>
+                <li><a href="#cta">Get Started</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Geofencing</h1>
+        <form action="{{ url_for('geofencing') }}" method="post">
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" required>
+            <br>
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" required>
+            <br>
+            <input type="submit" value="Check Geofence">
+        </form>
+        {% if result %}
+            <p>{{ result }}</p>
+        {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Smart Safety Analytics. All rights reserved.</p>
+                <p><strong>Contact:</strong> <a href="mailto:support@safetyanalytics.com">support@safetyanalytics.com</a></p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
