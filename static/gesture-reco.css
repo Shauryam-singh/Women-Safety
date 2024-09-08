@@ -18,6 +18,11 @@ body::-webkit-scrollbar-thumb{
     background-color: #ff00ee;
 }
 
+.btn{
+    border: #ff00ee 2px solid;
+    border-radius: 10px;
+    padding: 5px;
+  }
 #nav{
     background-color: #000;
     position: fixed;

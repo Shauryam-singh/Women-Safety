@@ -58,7 +58,7 @@ body::-webkit-scrollbar-thumb{
     align-items: center
 }
 #main h1{ 
-    width: 80%;
+    width: 70%;
     font-size: 4em;
     color: rgb(255, 255, 255);
     text-align: center;
@@ -95,7 +95,18 @@ body::-webkit-scrollbar-thumb{
     transform: scale(0);
     transition: transform 0.5s ease;
   }
-  
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 40px;
+    border: #ff00ee 2px solid;
+    border-radius: 10px;
+  }
+  form input{
+    color: #000;
+    margin: 5px;
+  }
   .boton-elegante:hover::after {
     transform: scale(4);
   }
@@ -103,6 +114,10 @@ body::-webkit-scrollbar-thumb{
   .boton-elegante:hover {
     border-color: #666666;
     background: #292929;
+  }
+  .btn{
+    border: #ff00ee 2px solid;
+    border-radius: 10px;
   }
   
 #key-fea{
